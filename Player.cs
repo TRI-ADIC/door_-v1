@@ -60,9 +60,9 @@ public partial class Player : CharacterBody3D
 		MoveAndSlide();
 	}
 
-	// Camera Movement and Escape Key
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		//Camera Movement and Escape Key
 		if(@event is InputEventMouseButton)
 		{
 			Input.MouseMode = Input.MouseModeEnum.Captured;
@@ -83,6 +83,24 @@ public partial class Player : CharacterBody3D
 				rotation.X = Mathf.Clamp(Camera.Rotation.X, Mathf.DegToRad(-30), Mathf.DegToRad(60));
 				Camera.Rotation = rotation;
 			}
+		}
+
+		// Object Grabber
+		if(@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+		{
+			if(mouseEvent.ButtonIndex == MouseButton.Left)
+			{
+				PickObject();
+			}
+		}
+	}
+
+	public void PickObject(){
+		Object collider = Interaction.GetCollider();
+
+		if(collider != null && collider is RigidBody3D)
+		{
+			GD.Print("Colliding with a rigid body");
 		}
 	}
 }
